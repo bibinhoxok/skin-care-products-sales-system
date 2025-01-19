@@ -15,7 +15,6 @@ const GET = async (req: Request) => { //arrow function ref: https://www.youtube.
     }
 }
 
-// Path: api/customer
 //create a new customer
 const POST = async (req: Request) => {
     try {

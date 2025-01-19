@@ -2,7 +2,7 @@ import { connectDB } from '@/lib/mongodb';
 import CustomerModel from "@/models/customer";
 
 
-// Path: api/customer/[name]
+// Path: api/customer/name/[name]
 //find customer by name
 const GET = async (
     request: Request,
