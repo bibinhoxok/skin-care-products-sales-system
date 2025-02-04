@@ -16,7 +16,7 @@ export default function Home() {
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
             Cửa Hàng
           </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
+          <Link className="text-sm font-medium hover:underline underline-offset-4" href="/guest/blog-page">
             Blog
           </Link>
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
