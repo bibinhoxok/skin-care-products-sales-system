@@ -2,7 +2,7 @@ import { connectDB } from '@/lib/mongodb';
 import CustomerModel from "@/models/customer";
 import { CustomerSchema } from '@/schemas/customers/customerSchema';
 
-
+//ref: https://www.youtube.com/watch?v=fgTGADljAeg Build A REST API With Node.js, Express, & MongoDB - Quick
 // Path: api/customer
 //get all customers
 const GET = async (req: Request) => { //arrow function ref: https://www.youtube.com/watch?v=h33Srr5J9nY
@@ -15,7 +15,6 @@ const GET = async (req: Request) => { //arrow function ref: https://www.youtube.
     }
 }
 
-// Path: api/customer
 //create a new customer
 const POST = async (req: Request) => {
     try {

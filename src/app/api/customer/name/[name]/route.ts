@@ -1,10 +1,9 @@
 import { connectDB } from '@/lib/mongodb';
 import CustomerModel from "@/models/customer";
-import { CustomerSchema } from '@/schemas/customers/customerSchema';
 
 
-// Path: api/customer/[id]
-//get customer by id
+// Path: api/customer/name/[name]
+//find customer by name
 const GET = async (
     request: Request,
     { params }: { params: Promise<{ name: string }> }
@@ -22,3 +21,4 @@ const GET = async (
         return new Response((e as Error).message, { status: 500 })
     }
 }
+export { GET }
