@@ -3,42 +3,14 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Leaf, ShoppingCart, User } from "lucide-react";
+import Footer from "../components/footer";
+import Header from "../components/header";
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="px-4 lg:px-6 h-14 flex items-center">
-        <Link className="flex items-center justify-center" href="#">
-          <Leaf className="h-6 w-6" />
-          <span className="sr-only">Chăm Sóc Da Glow</span>
-        </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Cửa Hàng
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="/guest/blog-page">
-            Blog
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Từ Điển
-          </Link>
-          <div className="relative">
-            <input
-              type="text"
-              className="text-sm px-4 py-1 border rounded-md focus:outline-none focus:ring"
-              placeholder="Tìm kiếm..."
-            />
-          </div>
-          <Link href="#" className="flex items-center justify-center">
-            <ShoppingCart className="h-5 w-5" />
-            <span className="sr-only">Giỏ Hàng</span>
-          </Link>
-          <Link href="#" className="flex items-center justify-center">
-            <User className="h-5 w-5" />
-            <span className="sr-only">Đăng Nhập</span>
-          </Link>
-        </nav>
-      </header>
+    <Header/>
+       
       <main className="flex-1 bg-[url('/background-image.jpg')] bg-cover bg-center">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gray-100 bg-cover bg-center">
           <div className="container px-4 md:px-6">
@@ -145,39 +117,10 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-black">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
-              <Image
-                src="/placeholder.svg?height=400&width=600"
-                alt="Về Chúng Tôi"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
-                width={600}
-                height={400}
-              />
-              <div className="flex flex-col justify-center space-y-4 text-white">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Về Chúng Tôi</h2>
-                <p className="max-w-[600px] text-gray-300 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                  Chúng tôi tin tưởng vào sức mạnh của thiên nhiên trong việc cải thiện làn da. Các sản phẩm của chúng tôi
-                  được chế tác cẩn thận, chỉ sử dụng các thành phần tự nhiên tốt nhất để nuôi dưỡng và tái tạo làn da của bạn.
-                </p>
-                <Button className="w-fit">Tìm Hiểu Thêm Về Chúng Tôi</Button>
-              </div>
-            </div>
-          </div>
-        </section>
-        <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t bg-gray-50">
-          <p className="text-xs text-gray-300 dark:text-gray-400">© 2024 Chăm Sóc Da Glow. Mọi quyền được bảo lưu.</p>
-          <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-            <Link className="text-xs text-gray-300 hover:underline underline-offset-4" href="#">
-              Điều Khoản Dịch Vụ
-            </Link>
-            <Link className="text-xs text-gray-300 hover:underline underline-offset-4" href="#">
-              Chính Sách Bảo Mật
-            </Link>
-          </nav>
-        </footer>
+      
+        
       </main>
+      <Footer /> {/* Gọi Footer */}
     </div>
   );
 }
