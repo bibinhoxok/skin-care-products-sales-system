@@ -2,42 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Leaf, ShoppingCart, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Header from "@/app/components/header";
+import Footer from "@/app/components/footer";
 
 export default function BlogPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="px-4 lg:px-6 h-14 flex items-center">
-        <Link className="flex items-center justify-center" href="/">
-          <Leaf className="h-6 w-6" />
-          <span className="sr-only">Chăm Sóc Da Glow</span>
-        </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="/shop">
-            Cửa Hàng
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="/guest/blog-page">
-            Blog
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="/dictionary">
-            Từ Điển
-          </Link>
-          <div className="relative">
-            <input
-              type="text"
-              className="text-sm px-4 py-1 border rounded-md focus:outline-none focus:ring"
-              placeholder="Tìm kiếm..."
-            />
-          </div>
-          <Link href="/cart" className="flex items-center justify-center">
-            <ShoppingCart className="h-5 w-5" />
-            <span className="sr-only">Giỏ Hàng</span>
-          </Link>
-          <Link href="/login" className="flex items-center justify-center">
-            <User className="h-5 w-5" />
-            <span className="sr-only">Đăng Nhập</span>
-          </Link>
-        </nav>
-      </header>
+      <Header/>
 
       <main className="flex-1 bg-[url('/background-image.jpg')] bg-cover bg-center">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gray-100 bg-cover bg-center">
@@ -173,18 +144,9 @@ export default function BlogPage() {
           </div>
         </section>
 
-        <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t bg-gray-50">
-          <p className="text-xs text-gray-300 dark:text-gray-400">© 2024 Chăm Sóc Da Glow. Mọi quyền được bảo lưu.</p>
-          <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-            <Link className="text-xs text-gray-300 hover:underline underline-offset-4" href="#">
-              Điều Khoản Dịch Vụ
-            </Link>
-            <Link className="text-xs text-gray-300 hover:underline underline-offset-4" href="#">
-              Chính Sách Bảo Mật
-            </Link>
-          </nav>
-        </footer>
+       
       </main>
+      <Footer/>
     </div>
   );
 }
