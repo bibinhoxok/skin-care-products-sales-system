@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ShoppingCart, Package, Users, UserCog, Gift, BarChart } from "lucide-react"
-import Link from "next/link"
+import type React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ShoppingCart, Package, Users, Gift } from "lucide-react";
+import Link from "next/link";
 
 const ManagerPage: React.FC = () => {
   return (
-    <div className="p-8">
+    <>
       <h1 className="text-3xl font-bold mb-6">Trang chủ</h1>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card>
@@ -52,19 +52,6 @@ const ManagerPage: React.FC = () => {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Quản lý nhân viên</CardTitle>
-            <UserCog className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">23</div>
-            <p className="text-xs text-muted-foreground">Nhân viên hiện tại</p>
-            <Button className="mt-4 w-full" asChild>
-              <Link href="/manager/employees">Xem chi tiết</Link>
-            </Button>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Quản lý khuyến mãi</CardTitle>
             <Gift className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -76,21 +63,8 @@ const ManagerPage: React.FC = () => {
             </Button>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Báo cáo thống kê</CardTitle>
-            <BarChart className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">Tổng quan</div>
-            <p className="text-xs text-muted-foreground">Doanh thu, lợi nhuận, xu hướng</p>
-            <Button className="mt-4 w-full" asChild>
-              <Link href="/manager/statistics">Xem báo cáo</Link>
-            </Button>
-          </CardContent>
-        </Card>
       </div>
-    </div>
+    </>
   );
 };
 
