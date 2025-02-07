@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import CustomerOrders from "../components/CustomerOrder";
 
 interface Customer {
   id: string;
@@ -87,6 +88,7 @@ export default async function CustomerDetailPage({
           </div>
         </CardContent>
       </Card>
+      <CustomerOrders customerId={customer.id} />
     </div>
   );
 }

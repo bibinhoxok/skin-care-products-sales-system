@@ -11,19 +11,41 @@ import { Badge } from "@/components/ui/badge";
 
 interface Order {
   id: string;
-  date: string;
-  total: number;
+  item: string;
+  paymentInfo: string;
+  orderDate: string;
+  price: number;
   status: "pending" | "shipped" | "delivered";
 }
 
 async function getCustomerOrders(customerId: string): Promise<Order[]> {
-  // This is a placeholder for actual data fetching
-  // In a real application, you would fetch this data from an API or database
+  // Giả lập dữ liệu đơn hàng
   await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate delay
   return [
-    { id: "1", date: "2023-05-01", total: 125.0, status: "delivered" },
-    { id: "2", date: "2023-05-15", total: 75.5, status: "shipped" },
-    { id: "3", date: "2023-05-30", total: 250.0, status: "pending" },
+    {
+      id: "1",
+      item: "Wireless Headphones",
+      paymentInfo: "Credit Card",
+      orderDate: "2023-12-01",
+      price: 125.0,
+      status: "delivered",
+    },
+    {
+      id: "2",
+      item: "Smartwatch",
+      paymentInfo: "PayPal",
+      orderDate: "2023-12-10",
+      price: 75.5,
+      status: "shipped",
+    },
+    {
+      id: "3",
+      item: "Gaming Mouse",
+      paymentInfo: "Debit Card",
+      orderDate: "2023-12-20",
+      price: 50.0,
+      status: "pending",
+    },
   ];
 }
 
@@ -37,15 +59,17 @@ export default async function CustomerOrders({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Recent Orders</CardTitle>
+        <CardTitle>Customer Order</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Order ID</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Total</TableHead>
+              <TableHead>ID</TableHead>
+              <TableHead>Item</TableHead>
+              <TableHead>Payment Info</TableHead>
+              <TableHead>Order Date</TableHead>
+              <TableHead>Price</TableHead>
               <TableHead>Status</TableHead>
             </TableRow>
           </TableHeader>
@@ -53,8 +77,10 @@ export default async function CustomerOrders({
             {orders.map((order) => (
               <TableRow key={order.id}>
                 <TableCell>{order.id}</TableCell>
-                <TableCell>{order.date}</TableCell>
-                <TableCell>${order.total.toFixed(2)}</TableCell>
+                <TableCell>{order.item}</TableCell>
+                <TableCell>{order.paymentInfo}</TableCell>
+                <TableCell>{order.orderDate}</TableCell>
+                <TableCell>${order.price.toFixed(2)}</TableCell>
                 <TableCell>
                   <Badge
                     variant={
