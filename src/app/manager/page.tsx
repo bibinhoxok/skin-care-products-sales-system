@@ -1,14 +1,14 @@
-"use client";
+"use client"
 
-import type React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ShoppingCart, Package, Users, Gift } from "lucide-react";
-import Link from "next/link";
+import type React from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { ShoppingCart, Package, Users, Gift } from "lucide-react"
+import Link from "next/link"
 
 const ManagerPage: React.FC = () => {
   return (
-    <>
+    <div className="p-8">
       <h1 className="text-3xl font-bold mb-6">Trang chủ</h1>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card>
@@ -64,7 +64,7 @@ const ManagerPage: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </>
+    </div>
   );
 };
 
