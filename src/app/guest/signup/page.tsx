@@ -341,7 +341,7 @@ export default function SignupPage() {
               </>
             )}
             <div className="text-center space-y-2">
-              <Link href="/login" className="text-sm hover:underline">
+              <Link href="/guest/login" className="text-sm hover:underline">
                 Quay lại đăng nhập nếu bạn đã có tài khoản
               </Link>
               <Link href="/guest" className="text-sm hover:underline block">
