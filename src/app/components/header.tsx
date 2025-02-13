@@ -67,7 +67,10 @@ export default function Header() {
         </div>
 
         {/* Giỏ hàng */}
-        <Link href="#" className="flex items-center justify-center hover:bg-gray-300 focus:bg-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 p-2 rounded-md">
+        <Link
+          href="#"
+          className="flex items-center justify-center hover:bg-gray-300 focus:bg-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 p-2 rounded-md"
+        >
           <ShoppingCart className="h-5 w-5" />
           <span className="sr-only">Giỏ Hàng</span>
         </Link>
@@ -92,7 +95,7 @@ export default function Header() {
                 Đăng Nhập
               </Link>
               <Link
-                href="/guest/register"
+                href="/guest/signup"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 Đăng Ký
