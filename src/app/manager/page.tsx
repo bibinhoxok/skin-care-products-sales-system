@@ -33,7 +33,7 @@ const ManagerPage: React.FC = () => {
             <div className="text-2xl font-bold">145</div>
             <p className="text-xs text-muted-foreground">Sản phẩm đang kinh doanh</p>
             <Button className="mt-4 w-full" asChild>
-              <Link href="/manager/products">Xem chi tiết</Link>
+            <Link href="/manager/products-page">Xem chi tiết</Link>
             </Button>
           </CardContent>
         </Card>
