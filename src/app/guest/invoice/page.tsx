@@ -7,47 +7,36 @@ import SimpleInvoice from "@/app/components/invoice/invoice-simple";
 import InvoiceEmail from "@/app/components/invoice/invoice-email";
 import Header from "@/app/components/header";
 
-
 export default function InvoicesPage() {
-  const [activeTab, setActiveTab] = useState("simple"); // Mặc định là Simple Invoice
+  const [activeTab, setActiveTab] = useState("simple");
 
   return (
-   
-    <div className="min-h-screen bg-black-950 text-white-200">
-         <Header/>
-      <header className="border-b border-gray-800 p-4">
+    <div className="min-h-screen bg-black text-white">
+      <Header />
+      <header className="border-b border-gray-800 p-4 text-white">
         <div className="container mx-auto flex items-center justify-between">
           <h1 className="text-2xl font-semibold">Invoices</h1>
           <div className="flex gap-2">
-          <Button
-  variant="outline"
-  className={`bg-transparent text-black-200 border-gray-700 hover:bg-purple-700 ${activeTab === "list" ? "bg-white-800" : ""}`}
-  onClick={() => setActiveTab("list")}
->
-  Invoice List
-</Button>
-<Button
-  variant="outline"
-  className={`bg-transparent text-black-200 border-gray-700 hover:bg-purple-700 ${activeTab === "simple" ? "bg-white-800" : ""}`}
-  onClick={() => setActiveTab("simple")}
->
-  Simple Invoice
-</Button>
-<Button
-  variant="outline"
-  className={`bg-transparent text-black-200 border-gray-700 hover:bg-purple-700 ${activeTab === "email" ? "bg-white-800" : ""}`}
-  onClick={() => setActiveTab("email")}
->
-  Email Invoice
-</Button>
-
-
-</div>
-
+            {["list", "simple", "email"].map((tab) => (
+              <Button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-4 py-2 rounded ${
+                  activeTab === tab
+                    ? "bg-white text-black"
+                    : "bg-gray-700 text-white"
+                }`}
+              >
+                {tab === "list" ? "Invoice List" : 
+                 tab === "simple" ? "Simple Invoice" : 
+                 "Email Invoice"}
+              </Button>
+            ))}
+          </div>
         </div>
       </header>
 
-      <main className="container mx-auto p-6">
+      <main className="container mx-auto p-6 text-white">
         {activeTab === "simple" && <SimpleInvoice />}
         {activeTab === "list" && <InvoiceList />}
         {activeTab === "email" && <InvoiceEmail />}

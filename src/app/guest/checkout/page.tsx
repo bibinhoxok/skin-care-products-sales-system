@@ -1,133 +1,103 @@
 "use client";
 
 import { useState } from "react";
-import { 
-  Container, Paper, Typography, TextField, FormControl, InputLabel, 
-  Select, MenuItem, RadioGroup, FormControlLabel, Radio, Button, Grid, 
-  Checkbox, Box, Divider, Card, CardContent
-} from "@mui/material";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import { useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Select, SelectItem } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
+import Header from "@/app/components/header";
+import Footer from "@/app/components/footer";
+import { SelectContent } from "@radix-ui/react-select";
 
 export default function CheckoutPage() {
-  const [paymentMethod, setPaymentMethod] = useState("credit");
-  const [shippingCost, setShippingCost] = useState(12.00);
-  const subtotal = 1096.00;
-  const discount = 10.00;
-  const taxRate = 0.18;
-  const total = subtotal + shippingCost - discount + subtotal * taxRate;
+    const [paymentMethod, setPaymentMethod] = useState("credit");
+    const [shippingCost, setShippingCost] = useState(12.0);
+    const subtotal = 1096.0;
+    const discount = 10.0;
+    const taxRate = 0.18;
+    const total = subtotal + shippingCost - discount + subtotal * taxRate;
 
+    return (
+  <>
+            
+               
+                < div className="max-w-4xl mx-auto p-6 bg-white rounded-md shadow-md">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Thông tin cá nhân */}
+                        <Card>
+                            <CardContent>
+                                <h2 className="text-lg font-semibold mb-4">Thông tin cá nhân của bạn</h2>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <Input placeholder="Họ" />
+                                    <Input placeholder="Tên" />
+                                    <Input placeholder="Số điện thoại" />
+                                    <Input placeholder="Địa chỉ email" />
+                                    <Input className="col-span-2" placeholder="Địa chỉ nhận hàng" />
+                                    <Input placeholder="Thành phố" />
+                                    <Input placeholder="Quận/Huyện" />
+                                    <Input placeholder="Phường/Xã" />
+                                    <Input placeholder="Mã giảm giá" />
+                                    <Select>
+                                    <SelectContent>
+                                        <SelectItem value="us">United States</SelectItem>
+                                        <SelectItem value="vn">Vietnam</SelectItem>
+                                        <SelectItem value="jp">Japan</SelectItem>
+                                    </SelectContent>
+                                    </Select>
+                                </div>
+                                <Button className="w-full mt-4">Lưu</Button>
+                            </CardContent>
+                        </Card>
 
+                        {/* Thanh toán */}
+                        <Card>
+                            <CardContent>
+                                <h2 className="text-lg font-semibold mb-4">Pricing</h2>
+                                <div className="flex justify-between"><span>Tổng giá trị đơn hàng:</span> <span>${subtotal.toFixed(2)}</span></div>
+                                <div className="flex justify-between text-red-500"><span>Phí vận chuyển:</span> <span>${shippingCost.toFixed(2)}</span></div>
+                                <div className="flex justify-between text-green-500"><span>Giảm giá:</span> <span>-${discount.toFixed(2)}</span></div>
+                                <div className="flex justify-between"><span>Thuế (18%):</span> <span>${(subtotal * taxRate).toFixed(2)}</span></div>
+                                <div className="flex justify-between font-bold border-t mt-2 pt-2"><span>Tổng thanh toán:</span> <span>${total.toFixed(2)}</span></div>
+                            </CardContent>
+                        </Card>
+                    </div>
 
-  return (
-    <Container maxWidth="lg" sx={{ mt: 5, bgcolor: "white", color: "black", p: 3, borderRadius: 2 }}>
-      <Grid container spacing={3}>
-        {/* Thông tin cá nhân và địa chỉ giao hàng */}
-        <Grid item xs={12} md={8}>
-          <Paper sx={{ p: 3, borderRadius: 2, bgcolor: "#f5f5f5" }}>
-            <Typography variant="h5" gutterBottom>
-            Thông tin cá nhân của bạn
-            </Typography>
-            <Grid container spacing={2}>
-            <Grid item xs={6}><TextField fullWidth label="Họ" variant="outlined" /></Grid>
-              <Grid item xs={6}><TextField fullWidth label="Tên" variant="outlined" /></Grid>
-              <Grid item xs={6}><TextField fullWidth label="Số điện thoại" variant="outlined" /></Grid>
-              <Grid item xs={6}><TextField fullWidth label="Địa chỉ email" variant="outlined" /></Grid>
-              <Grid item xs={12}><TextField fullWidth label="Địa chỉ nhận hàng" variant="outlined" /></Grid>
-              <Grid item xs={12}><TextField fullWidth label="Địa chỉ giao hàng" variant="outlined" /></Grid>
-              <Grid item xs={6}><TextField fullWidth label="Thành phố" variant="outlined" /></Grid>
-              <Grid item xs={6}><TextField fullWidth label="Mã giảm giá" variant="outlined" /></Grid>
-              <Grid item xs={6}>
-                <FormControl fullWidth>
-                  <InputLabel>Country</InputLabel>
-                  <Select>
-                    <MenuItem value="Hoa Kỳ">United States</MenuItem>
-                    <MenuItem value="Việt NamN">Vietnam</MenuItem>
-                    <MenuItem value="Nhật Bản">Japan</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-              </Grid>
-            </Grid>
-            <Button variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>
-              SAVE
-            </Button>
-          </Paper>
-
-          {/* Tùy chọn vận chuyển */}
-          <Typography variant="h6" sx={{ mt: 3 }}>Chọn phương thức giao hàng</Typography>
-          <Grid container spacing={2}>
-            {[{ name: "dpd", price: 12.00 }, { name: "dpd", price: 10.00 }, { name: "DHL", price: 11.00 }, { name: "Xe tải", price: 18.00 }].map((option, index) => (
-              <Grid item xs={3} key={index}>
-                <Card sx={{ bgcolor: "#e0e0e0", p: 2, textAlign: "center", cursor: "pointer" }} onClick={() => setShippingCost(option.price)}>
-                  <CardContent>
-                    <Typography>{option.name}</Typography>
-                    <Typography variant="subtitle2">Standard Shipping</Typography>
-                    <Typography variant="h6">${option.price.toFixed(2)}</Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Grid>
-
-        {/* Cột thanh toán */}
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 3, borderRadius: 2, bgcolor: "#f5f5f5" }}>
-            <Typography variant="h6">Pricing</Typography>
-            <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-              <Typography>Tổng giá trị đơn hàng:</Typography>
-              <Typography>${subtotal.toFixed(2)}</Typography>
-            </Box>
-            <Box sx={{ display: "flex", justifyContent: "space-between", color: "red" }}>
-              <Typography>Phí vận chuyển:</Typography>
-              <Typography>${shippingCost.toFixed(2)}</Typography>
-            </Box>
-            <Box sx={{ display: "flex", justifyContent: "space-between", color: "green" }}>
-              <Typography>Giảm giá:</Typography>
-              <Typography>-${discount.toFixed(2)}</Typography>
-            </Box>
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography>Thuế (18%):</Typography>
-              <Typography>${(subtotal * taxRate).toFixed(2)}</Typography>
-            </Box>
-            <Divider sx={{ my: 2 }} />
-            <Box sx={{ display: "flex", justifyContent: "space-between", fontWeight: "bold" }}>
-              <Typography>Tổng thanh toán:</Typography>
-              <Typography>${(subtotal + shippingCost - discount + (subtotal * taxRate)).toFixed(2)}</Typography>
-            </Box>
-          </Paper>
-
-          {/* Phương thức thanh toán */}
-          <Paper sx={{ p: 3, mt: 3, borderRadius: 2, bgcolor: "#f5f5f5" }}>
-            <Typography variant="h6">Payment Method</Typography>
-            <RadioGroup value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)}>
-              <FormControlLabel value="credit" control={<Radio />} label={<><CreditCardIcon /> Thẻ tín dụng/Ghi nợ</>} />
-              <FormControlLabel value="banking" control={<Radio />} label={<><AccountBalanceWalletIcon /> Chuyển khoản ngân hàng</>} />
-            </RadioGroup>
-            {paymentMethod === "credit" ? (
-              <>
-                <TextField fullWidth label="Enter Card Number" sx={{ mt: 2 }} />
-                <TextField fullWidth label="Valid Date" type="date" sx={{ mt: 2 }} />
-                <TextField fullWidth label="CVV" sx={{ mt: 2 }} />
-              </>
-            ) : (
-              <>
-                <TextField fullWidth label="Enter Your Name" sx={{ mt: 2 }} />
-                <TextField fullWidth label="Account Number" sx={{ mt: 2 }} />
-                <Grid container spacing={2}>
-                  <Grid item xs={6}><TextField fullWidth label="Bank Name" /></Grid>
-                  <Grid item xs={6}><TextField fullWidth label="IFC Code" /></Grid>
-                </Grid>
-              </>
-            )}
-            <Button variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>PAY NOW</Button>
-          </Paper>
-        </Grid>
-      </Grid>
-    </Container>
-  );
+                    {/* Phương thức thanh toán */}
+                    <Card className="mt-6">
+                        <CardContent>
+                            <h2 className="text-lg font-semibold mb-4">Phương thức thanh toán</h2>
+                            <RadioGroup defaultValue={paymentMethod} onValueChange={setPaymentMethod}>
+                                <Label className="flex items-center gap-2">
+                                    <RadioGroupItem value="credit" /> Thẻ tín dụng/Ghi nợ
+                                </Label>
+                                <Label className="flex items-center gap-2">
+                                    <RadioGroupItem value="banking" /> Chuyển khoản ngân hàng
+                                </Label>
+                            </RadioGroup>
+                            {paymentMethod === "credit" ? (
+                                <>
+                                    <Input placeholder="Số thẻ" className="mt-2" />
+                                    <Input placeholder="Ngày hết hạn" type="date" className="mt-2" />
+                                    <Input placeholder="CVV" className="mt-2" />
+                                </>
+                            ) : (
+                                <>
+                                    <Input placeholder="Tên chủ tài khoản" className="mt-2" />
+                                    <Input placeholder="Số tài khoản" className="mt-2" />
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <Input placeholder="Ngân hàng" />
+                                        <Input placeholder="Mã IFC" />
+                                    </div>
+                                </>
+                            )}
+                            <Button className="w-full mt-4">Thanh toán ngay</Button>
+                        </CardContent>
+                    </Card>
+                </div>
+                
+            </>
+            );
 }

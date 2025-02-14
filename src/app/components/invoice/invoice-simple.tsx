@@ -7,21 +7,20 @@ import { Printer, Send } from "lucide-react"
 
 export default function SimpleInvoice() {
   return (
-    <div className="min-h-screen bg-background p-4">
-      <Card className="max-w-4xl mx-auto border-2 border-gray-700 ">
+    <div className="min-h-screen bg-black text-white p-4">
+      <Card className="max-w-4xl mx-auto border-2 border-gray-700 bg-gray-900 text-white">
         <CardHeader>
           <div className="flex justify-between items-center mb-8">
-          <div className="space-y-2">
-  <div className="flex gap-4">
-    <span className="text-black">Date</span>
-    <span>May 22, 2021</span>
-  </div>
-  <div className="flex gap-4">
-    <span className="text-black">Transaction id:</span>
-    <span>#18414</span>
-  </div>
-</div>
-
+            <div className="space-y-2">
+              <div className="flex gap-4">
+                <span className="text-gray-300">Date</span>
+                <span>May 22, 2021</span>
+              </div>
+              <div className="flex gap-4">
+                <span className="text-gray-300">Transaction id:</span>
+                <span>#18414</span>
+              </div>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
@@ -50,29 +49,28 @@ export default function SimpleInvoice() {
         </CardHeader>
 
         <CardContent>
-        <Table>
-  <TableHeader>
-    <TableRow>
-      <TableHead className="w-16 text-black">#</TableHead>
-      <TableHead className="text-black">ITEM</TableHead>
-      <TableHead className="text-black">DESCRIPTION</TableHead>
-      <TableHead className="text-right text-black">ITEM COST</TableHead>
-      <TableHead className="text-right text-black">PRODUCTS ITEM</TableHead>
-      <TableHead className="text-right text-black">TOTAL</TableHead>
-    </TableRow>
-  </TableHeader>
-  <TableBody>
-    <TableRow>
-      <TableCell className="text-black">1</TableCell>
-      <TableCell className="text-black">Rado Watch</TableCell>
-      <TableCell className="text-black">Men Watch for Gold Color</TableCell>
-      <TableCell className="text-right text-black">$330.00</TableCell>
-      <TableCell className="text-right text-black">1</TableCell>
-      <TableCell className="text-right text-black">$330.00</TableCell>
-    </TableRow>
-  </TableBody>
-</Table>
-
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-16 text-gray-300">#</TableHead>
+                <TableHead className="text-gray-300">ITEM</TableHead>
+                <TableHead className="text-gray-300">DESCRIPTION</TableHead>
+                <TableHead className="text-right text-gray-300">ITEM COST</TableHead>
+                <TableHead className="text-right text-gray-300">PRODUCTS ITEM</TableHead>
+                <TableHead className="text-right text-gray-300">TOTAL</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell className="text-white">1</TableCell>
+                <TableCell className="text-white">Rado Watch</TableCell>
+                <TableCell className="text-white">Men Watch for Gold Color</TableCell>
+                <TableCell className="text-right text-white">$330.00</TableCell>
+                <TableCell className="text-right text-white">1</TableCell>
+                <TableCell className="text-right text-white">$330.00</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
 
           <div className="mt-8 space-y-2">
             <div className="flex justify-between">
@@ -91,7 +89,7 @@ export default function SimpleInvoice() {
 
           <div className="mt-8 space-y-4">
             <h3 className="font-semibold">Terms & Condition</h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-gray-400">
               Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical
               Latin literature from 45 BC, making it over
             </p>
@@ -99,18 +97,16 @@ export default function SimpleInvoice() {
         </CardContent>
 
         <CardFooter className="flex justify-end gap-4">
-          <Button variant="outline" onClick={() => window.print()}>
+          <Button variant="outline" className=" bg-purple-600 border-black text-white" onClick={() => window.print()}>
             <Printer className="mr-2 h-4 w-4" />
             Print
           </Button>
-          <Button className="bg-purple-600 hover:bg-purple-700 text-white">
-  <Send className="mr-2 h-4 w-4" />
-  Send Invoice
-</Button>
-
+          <Button className="bg-purple-600  text-white hover:bg-white-700">
+            <Send className="mr-2 h-4 w-4" />
+            Send Invoice
+          </Button>
         </CardFooter>
       </Card>
     </div>
   )
 }
-

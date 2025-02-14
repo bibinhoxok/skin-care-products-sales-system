@@ -1,26 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  IconButton,
-  TextField,
-  Select,
-  MenuItem,
-  Button,
-  Typography,
-  Divider,
-  Box,
-  Card,
-  CardContent,
-} from "@mui/material";
-import { Edit, Delete, FirstPage, LastPage, NavigateBefore, NavigateNext } from "@mui/icons-material";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Trash, Pencil } from "lucide-react";
 
 interface CartItem {
   id: number;
@@ -46,129 +32,92 @@ export default function ShoppingCart() {
   const total = subtotal + shippingCost - discount + tax;
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "white", color: "black", p: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Cart Detail
-      </Typography>
+    <div className="min-h-screen bg-white p-6">
+      <h2 className="text-2xl font-semibold mb-4">Cart Detail</h2>
 
-      <Card sx={{ bgcolor: "white", border: "2px solid #9E9E9E" }}>
+      <Card>
         <CardContent>
-          <Typography variant="h6">Order Summary</Typography>
-          <Divider sx={{ my: 2, bgcolor: "#757575" }} />
-<Divider sx={{ bgcolor: "#757575" }} />
+          <h3 className="text-lg font-medium">Order Summary</h3>
+          <Separator className="my-4" />
 
-
-          <TableContainer component={Paper} sx={{ bgcolor: "white" }}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell >PRODUCT IMAGE</TableCell>
-                  <TableCell >PRODUCT NAME</TableCell>
-                  <TableCell >PRE-ORDER</TableCell>
-                  <TableCell >QUANTITY</TableCell>
-                  <TableCell >PRICE</TableCell>
-                  <TableCell >ACTION</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {cartItems.map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell>
-                      <img src={item.image} alt={item.name} width={50} height={50} style={{ borderRadius: 8 }} />
-                    </TableCell>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.preOrder}</TableCell>
-                    <TableCell>
-                      <TextField
-                        type="number"
-                        value={item.quantity}
-                        onChange={(e) => {
-                          const newQuantity = Number.parseInt(e.target.value);
-                          if (newQuantity > 0) {
-                            setCartItems(cartItems.map((cartItem) => (cartItem.id === item.id ? { ...cartItem, quantity: newQuantity } : cartItem)));
-                          }
-                        }}
-                        size="small"
-                       
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableCell>PRODUCT IMAGE</TableCell>
+                <TableCell>PRODUCT NAME</TableCell>
+                <TableCell>PRE-ORDER</TableCell>
+                <TableCell>QUANTITY</TableCell>
+                <TableCell>PRICE</TableCell>
+                <TableCell>ACTION</TableCell>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {cartItems.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell>
+                    <div className="w-[50px] h-[50px] rounded-lg bg-gray-300 flex items-center justify-center overflow-hidden">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => (e.currentTarget.style.opacity = "0")}
                       />
-                    </TableCell>
-                    <TableCell>${item.price.toFixed(2)}</TableCell>
-                    <TableCell>
-                      <IconButton color="primary">
-                        <Edit />
-                      </IconButton>
-                      <IconButton color="error">
-                        <Delete />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                    </div>
+                  </TableCell>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.preOrder}</TableCell>
+                  <TableCell>
+                    <Input
+                      type="number"
+                      value={item.quantity}
+                      onChange={(e) => {
+                        const newQuantity = Number.parseInt(e.target.value);
+                        if (newQuantity > 0) {
+                          setCartItems(cartItems.map((cartItem) => (cartItem.id === item.id ? { ...cartItem, quantity: newQuantity } : cartItem)));
+                        }
+                      }}
+                      className="w-16"
+                    />
+                  </TableCell>
+                  <TableCell>${item.price.toFixed(2)}</TableCell>
+                  <TableCell>
+                    <Button variant="outline" size="icon" className="mr-2">
+                      <Pencil size={16} />
+                    </Button>
+                    <Button variant="destructive" size="icon">
+                      <Trash size={16} />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
 
-          <Box display="flex" justifyContent="space-between" alignItems="center" my={2}>
-            <Typography>Rows per page:</Typography>
-            <Select defaultValue="10" sx={{ bgcolor: "white", color: "black" }}>
-              <MenuItem value="5">5</MenuItem>
-              <MenuItem value="10">10</MenuItem>
-              <MenuItem value="20">20</MenuItem>
-            </Select>
+          <Separator className="my-4" />
 
-            <Box>
-              <IconButton>
-                <FirstPage sx={{ color: "white" }} />
-              </IconButton>
-              <IconButton>
-                <NavigateBefore sx={{ color: "white" }} />
-              </IconButton>
-              <IconButton>
-                <NavigateNext sx={{ color: "white" }} />
-              </IconButton>
-              <IconButton>
-                <LastPage sx={{ color: "white" }} />
-              </IconButton>
-            </Box>
-          </Box>
+          <div className="flex justify-between items-center">
+            <div>
+              <p>Apply Coupon to get discount!</p>
+              <div className="flex items-center mt-2">
+                <Input placeholder="Coupon Code" className="mr-2" />
+                <Button>Apply</Button>
+              </div>
+            </div>
+            <div>
+              <p>Subtotal: ${subtotal.toFixed(2)}</p>
+              <p>Shipping: ${shippingCost.toFixed(2)}</p>
+              <p>Discount: -${discount.toFixed(2)}</p>
+              <p>Tax (18%): ${tax.toFixed(2)}</p>
+              <p className="text-lg font-bold">Total: ${total.toFixed(2)}</p>
+            </div>
+          </div>
 
-          <Divider sx={{ my: 2, bgcolor: "white" }} />
-
-          <Box display="flex" justifyContent="space-between">
-          <Box>
-  <Typography>Apply Coupon to get discount!</Typography>
-  <Box display="flex" alignItems="center">
-    <TextField placeholder="Coupon Code" sx={{ bgcolor: "white", color: "black" }} />
-    <Button variant="contained" color="primary" sx={{ ml: 1, height: "100%" }}>
-      Apply
-    </Button>
-  </Box>
-</Box>
-            <Box>
-              <Typography>Subtotal: ${subtotal.toFixed(2)}</Typography>
-              <Typography>Shipping: ${shippingCost.toFixed(2)}</Typography>
-              <Typography>Discount: -${discount.toFixed(2)}</Typography>
-              <Typography>Tax (18%): ${tax.toFixed(2)}</Typography>
-              <Typography variant="h6" fontWeight="bold">
-                Total: ${total.toFixed(2)}
-              </Typography>
-            </Box>
-          </Box>
-
-          <Box display="flex" justifyContent="space-between" mt={3}>
-            <Button variant="contained" color="primary">
-              Continue Shopping
-            </Button>
-            <Button
-  variant="contained"
-  color="primary"
-  onClick={() => (window.location.href = "http://localhost:3000/guest/checkout")}
->
-  Proceed to Checkout
-</Button>
-
-          </Box>
+          <div className="flex justify-between mt-6">
+            <Button onClick={() => (window.location.href = "/guest/skinstore-page")}>Continue Shopping</Button>
+            <Button onClick={() => (window.location.href = "/guest/checkout")}>Proceed to Checkout</Button>
+          </div>
         </CardContent>
       </Card>
-    </Box>
+    </div>
   );
 }
