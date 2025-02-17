@@ -9,8 +9,8 @@ const GET = async (req: Request) => { //arrow function ref: https://www.youtube.
     try {
         await connectDB();
         const customers = await CustomerModel.find(); //ref: https://www.youtube.com/watch?v=DZBGEVgL2eE Mongoose Crash Course - Beginner Through Advanced
-        // return new Response(JSON.stringify(customers))
-        return new Response(process.env.MONGODB_URI)
+        return new Response(JSON.stringify(customers))
+      //  return new Response(process.env.MONGODB_URI)
     } catch (e) {
         return new Response((e as Error).message, { status: 500 })
     }

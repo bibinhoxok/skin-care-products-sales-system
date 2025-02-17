@@ -3,19 +3,20 @@ import FilterSection from "@/app/components/filter"
 import Header from "@/app/components/header"
 import { Search, Bell, Grid, ListIcon } from "lucide-react"
 
-
 export default function Page() {
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-white p-6">
-     <Header/>
+      <Header />
 
       {/* Main Content */}
-      <div className="flex gap-6">
+      <div className="container mx-auto flex gap-6">
         {/* Filters */}
-        <FilterSection />
+        <div className="w-64 flex-shrink-0 min-h-full">
+          <FilterSection />
+        </div>
 
         {/* Products */}
-        <div className="flex-1">
+        <div className="flex-1 min-h-full">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-semibold">Products</h1>
             <div className="flex gap-2">
@@ -27,10 +28,11 @@ export default function Page() {
               </button>
             </div>
           </div>
-          <FeaturedProducts />
+          <div className="flex-1 min-h-full">
+            <FeaturedProducts />
+          </div>
         </div>
       </div>
     </div>
   )
 }
-

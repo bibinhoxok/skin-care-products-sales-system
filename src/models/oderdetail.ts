@@ -1,6 +1,6 @@
 import { model, models } from "mongoose";
 import { zodSchema } from "@zodyac/zod-mongoose";
-import { zOrderDetailSchemaUpdate } from "@/schemas/OrderDetailSchema";
+import { zOrderDetailSchemaUpdate } from "@/schemas/guest/OrderDetailSchema";
 
 const schema = zodSchema(zOrderDetailSchemaUpdate);
 const OrderDetailModel = models.OrderDetail || model("OrderDetail", schema);
