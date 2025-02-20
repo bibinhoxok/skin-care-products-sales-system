@@ -5,6 +5,19 @@ import { NextRequest, NextResponse } from "next/server";
 
 
 
+export const GET = async () => {
+    try {
+        // Kết nối database
+        await connectDB();
+
+        // Lấy tất cả OrderDetail
+        const orderDetails = await OrderDetailModel.find();
+
+        return NextResponse.json(orderDetails, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+    }
+};
 
 export const POST = async (req: NextRequest) => {
     try {
