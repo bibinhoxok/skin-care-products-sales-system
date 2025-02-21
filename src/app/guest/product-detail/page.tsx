@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Star, Heart, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,20 +8,50 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 
+interface Review {
+    rating: number;
+    comment: string;
+}
+
 export default function ProductDetail() {
     const [selectedModel, setSelectedModel] = useState("oculus-go");
     const [selectedColor, setSelectedColor] = useState("gray");
     const [quantity, setQuantity] = useState(1);
     const [rating, setRating] = useState(0);
     const [comments, setComments] = useState("");
+    const [reviews, setReviews] = useState<Review[]>([]);
 
-    const models = [
-        { id: "oculus-go", name: "Oculus Go", image: "" },
-        { id: "oculus-quest", name: "Oculus Quest", image: "" },
-        { id: "oculus-rift-s", name: "Oculus Rift S", image: "" },
-    ];
+    useEffect(() => {
+        async function fetchReviews() {
+            try {
+                const response = await fetch("localhost:3000/api/feedback");
+                const data: Review[] = await response.json();
+                setReviews(data);
+            } catch (error) {
+                console.error("Error fetching reviews:", error);
+            }
+        }
+        fetchReviews();
+    }, []);
 
-    const colors = ["gold", "red", "gray"];
+    const submitReview = async () => {
+        if (!comments.trim()) return;
+        try {
+            const response = await fetch("localhost:3000/api/feedback", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ rating, comment: comments })
+            });
+            if (response.ok) {
+                const newReview: Review = await response.json();
+                setReviews([...reviews, newReview]);
+                setComments("");
+                setRating(0);
+            }
+        } catch (error) {
+            console.error("Error submitting review:", error);
+        }
+    };
 
     return (
         <div className="container mx-auto p-6">
@@ -37,25 +67,6 @@ export default function ProductDetail() {
                             <Star key={i} className={i < 4 ? "text-yellow-400" : "text-gray-400"} />
                         ))}
                         <span className="text-gray-500 text-sm">(449 customer reviews)</span>
-                    </div>
-                    <h4 className="font-semibold mt-4">Select Your Oculus</h4>
-                    <div className="flex gap-4 mt-2">
-                        {models.map((model) => (
-                            <Card key={model.id} className={`cursor-pointer ${selectedModel === model.id ? "border-blue-500" : "border-gray-300"}`} onClick={() => setSelectedModel(model.id)}>
-                                <CardContent className="flex flex-col items-center p-4">
-                                    <div className="w-20 h-20 bg-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
-                                        {model.image && <Image src={model.image} alt={model.name} width={75} height={75} />}
-                                    </div>
-                                    <p className="text-center mt-2">{model.name}</p>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
-                    <h4 className="font-semibold mt-4">Select Color</h4>
-                    <div className="flex gap-2 mt-2">
-                        {colors.map((color) => (
-                            <button key={color} className={`w-8 h-8 rounded-full ${selectedColor === color ? "ring-2 ring-white" : ""}`} style={{ backgroundColor: color }} onClick={() => setSelectedColor(color)}></button>
-                        ))}
                     </div>
                     <h4 className="font-semibold mt-4">Price</h4>
                     <p className="text-xl font-bold">$149 USD <span className="line-through text-gray-500 ml-2">$179 USD</span></p>
@@ -74,6 +85,7 @@ export default function ProductDetail() {
                     </div>
                 </div>
             </div>
+            
             <Tabs defaultValue="reviews" className="mt-8">
                 <TabsList>
                     <TabsTrigger value="reviews">Reviews</TabsTrigger>
@@ -82,12 +94,18 @@ export default function ProductDetail() {
                 </TabsList>
                 <TabsContent value="reviews">
                     <h4 className="font-semibold mt-4">Customer Reviews</h4>
-                    <div className="flex items-center gap-1 mt-2">
-                        {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="text-yellow-400" />
+                    <ul>
+                        {reviews.map((review, index) => (
+                            <li key={index} className="border-b py-2">
+                                <div className="flex items-center gap-1">
+                                    {[...Array(review.rating)].map((_, i) => (
+                                        <Star key={i} className="text-yellow-400" />
+                                    ))}
+                                </div>
+                                <p>{review.comment}</p>
+                            </li>
                         ))}
-                        <span className="text-sm">4.5/5 (Based on 1000 reviews)</span>
-                    </div>
+                    </ul>
                     <div className="mt-4">
                         {[...Array(5)].map((_, i) => (
                             <button key={i} onClick={() => setRating(i + 1)}>
@@ -97,10 +115,8 @@ export default function ProductDetail() {
                         <span className="ml-2">{rating} / 5</span>
                     </div>
                     <Textarea className="mt-4" placeholder="Write a review..." value={comments} onChange={(e) => setComments(e.target.value)} />
-                    <Button className="mt-4">Submit Review</Button>
+                    <Button className="mt-4" onClick={submitReview}>Submit Review</Button>
                 </TabsContent>
-                <TabsContent value="description">A good fit for many households...</TabsContent>
-                <TabsContent value="about">The build quality feels really premium...</TabsContent>
             </Tabs>
         </div>
     );

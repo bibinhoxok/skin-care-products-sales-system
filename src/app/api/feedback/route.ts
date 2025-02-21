@@ -1,41 +1,45 @@
 import { connectDB } from '@/lib/mongodb';
 import FeedbackModel from '@/models/feedback';
 import { FeedbackSchema } from '@/schemas/guest/feedbackSchema';
+import { NextRequest, NextResponse } from 'next/server';
 
-// Get all feedback
-const GET = async (req: Request) => { 
+// Lấy tất cả feedback
+export const GET = async () => {
     try {
         await connectDB();
-        const feedbacks = await FeedbackModel.find({}, 'FeedbackID Date CustomerID ProductID Rating Comment'); 
-        return new Response(JSON.stringify(feedbacks))
-    } catch (e) {
-        return new Response((e as Error).message, { status: 500 })
+        const feedbacks = await FeedbackModel.find({}, 'FeedbackID Date CustomerID ProductID Rating Comment');
+        return NextResponse.json(feedbacks, { status: 200 });
+    } catch (error) {
+        console.error("Error fetching feedbacks:", error);
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
-}
+};
 
-// Create a new feedback entry
-const POST = async (req: Request) => {
+// Thêm feedback mới
+export const POST = async (req: NextRequest) => {
     try {
-        const data = await req.json();
-        let feedback = FeedbackSchema.parse({
-            FeedbackID: data.FeedbackID,
-            Date: data.Date,
-            CustomerID: data.CustomerID,
-            ProductID: data.ProductID,
-            Rating: data.Rating,
-            Comment: data.Comment
-        });
-        
-        if (!feedback) {
-            return new Response("Invalid data", { status: 400 });
+        await connectDB(); // Đảm bảo kết nối DB trước khi xử lý dữ liệu
+
+        const bodyText = await req.text(); // Đọc raw text của request trước khi parse JSON
+        let data;
+        try {
+            data = JSON.parse(bodyText); // Parse JSON thủ công để bắt lỗi
+        } catch (parseError) {
+            return NextResponse.json({ error: "Invalid JSON format" }, { status: 400 });
         }
-        
-        await connectDB();
-        await FeedbackModel.create(feedback);
-        return new Response(JSON.stringify(feedback));
-    } catch (e) {
-        return new Response((e as Error).message, { status: 500 });
-    }
-}
 
-export { GET, POST };
+        // Validate dữ liệu đầu vào
+        const feedback = FeedbackSchema.safeParse(data);
+        if (!feedback.success) {
+            return NextResponse.json({ error: feedback.error.format() }, { status: 400 });
+        }
+
+        // Lưu vào database
+        const newFeedback = await FeedbackModel.create(feedback.data);
+
+        return NextResponse.json(newFeedback, { status: 201 });
+    } catch (error) {
+        console.error("Error saving feedback:", error);
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    }
+};
