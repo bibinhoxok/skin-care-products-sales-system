@@ -1,29 +1,29 @@
 import { connectDB } from '@/lib/mongodb';
-import CustomerModel from "@/models/customer";
+import OrderDetailModel from "@/models/orderDetail";
 import { SortOrder } from 'mongoose';
-
 const GET = async (req: Request) => {
     try {
         await connectDB();
         const { searchParams } = new URL(req.url);
-
         const page = parseInt(searchParams.get('page') || '1', 10);
         const limit = parseInt(searchParams.get('limit') || '10', 10);
         const id = searchParams.get('id');
         const search = searchParams.get('search') || '';
+        const sortField = searchParams.get('sortField') || 'createdAt';
         const sortOrder = (searchParams.get('sortOrder') || 'desc') as SortOrder;
+
 
         const skip = (page - 1) * limit;
 
         if (id) {
-            const customer = await CustomerModel.findById(id);
-            if (!customer) {
-                return new Response(JSON.stringify({ message: "Customer not found" }), {
+            const orderDetail = await OrderDetailModel.findById(id);
+            if (!orderDetail) {
+                return new Response(JSON.stringify({ message: "Order detail not found" }), {
                     status: 404,
                     headers: { 'Content-Type': 'application/json' },
                 });
             }
-            return new Response(JSON.stringify(customer), {
+            return new Response(JSON.stringify(orderDetail), {
                 status: 200,
                 headers: { 'Content-Type': 'application/json' },
             });
@@ -32,22 +32,22 @@ const GET = async (req: Request) => {
         const query = search
             ? {
                 $or: [
-                    { name: { $regex: search, $options: 'i' } },
-                    { email: { $regex: search, $options: 'i' } },
+                    { orderId: { $regex: search, $options: 'i' } },
+                    { productId: { $regex: search, $options: 'i' } },
                 ],
             }
             : {};
 
-        const totalDocs = await CustomerModel.countDocuments(query);
-        const customers = await CustomerModel.find(query)
+        const totalDocs = await OrderDetailModel.countDocuments(query);
+        const orderDetails = await OrderDetailModel.find(query)
             .sort({
-                createdAt: sortOrder,
+                [sortField]: sortOrder,
             })
             .skip(skip)
             .limit(limit);
 
         return new Response(JSON.stringify({
-            data: customers,
+            data: orderDetails,
             page,
             limit,
             totalPages: Math.ceil(totalDocs / limit),

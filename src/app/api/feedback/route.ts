@@ -1,45 +1,68 @@
 import { connectDB } from '@/lib/mongodb';
-import FeedbackModel from '@/models/feedback';
-import { FeedbackSchema } from '@/schemas/guest/feedbackSchema';
-import { NextRequest, NextResponse } from 'next/server';
-
-// Lấy tất cả feedback
-export const GET = async () => {
+import FeedbackModel from "@/models/feedback";
+import { SortOrder } from 'mongoose';
+ 
+const GET = async (req: Request) => {
     try {
         await connectDB();
-        const feedbacks = await FeedbackModel.find({}, 'FeedbackID Date CustomerID ProductID Rating Comment');
-        return NextResponse.json(feedbacks, { status: 200 });
-    } catch (error) {
-        console.error("Error fetching feedbacks:", error);
-        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
-    }
-};
+        const { searchParams } = new URL(req.url);
+        const page = parseInt(searchParams.get('page') || '1', 10);
+        const limit = parseInt(searchParams.get('limit') || '10', 10);
+        const id = searchParams.get('id');
+        const search = searchParams.get('search') || '';
+        const sortField = searchParams.get('sortField') || 'createdAt';
+        const sortOrder = (searchParams.get('sortOrder') || 'desc') as SortOrder;
 
-// Thêm feedback mới
-export const POST = async (req: NextRequest) => {
-    try {
-        await connectDB(); // Đảm bảo kết nối DB trước khi xử lý dữ liệu
+        const skip = (page - 1) * limit;
 
-        const bodyText = await req.text(); // Đọc raw text của request trước khi parse JSON
-        let data;
-        try {
-            data = JSON.parse(bodyText); // Parse JSON thủ công để bắt lỗi
-        } catch (parseError) {
-            return NextResponse.json({ error: "Invalid JSON format" }, { status: 400 });
+        if (id) {
+            const feedback = await FeedbackModel.findById(id);
+            if (!feedback) {
+                return new Response(JSON.stringify({ message: "Feedback not found" }), {
+                    status: 404,
+                    headers: { 'Content-Type': 'application/json' },
+                });
+            }
+            return new Response(JSON.stringify(feedback), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' },
+            });
         }
 
-        // Validate dữ liệu đầu vào
-        const feedback = FeedbackSchema.safeParse(data);
-        if (!feedback.success) {
-            return NextResponse.json({ error: feedback.error.format() }, { status: 400 });
-        }
+        const query = search
+            ? {
+                $or: [
+                    { productId: { $regex: search, $options: 'i' } },
+                    { customerId: { $regex: search, $options: 'i' } },
+                ],
+            }
+            : {};
 
-        // Lưu vào database
-        const newFeedback = await FeedbackModel.create(feedback.data);
+        const totalDocs = await FeedbackModel.countDocuments(query);
+        const feedbacks = await FeedbackModel.find(query)
+            .sort({
+                [sortField]: sortOrder,
+            })
+            .skip(skip)
+            .limit(limit);
 
-        return NextResponse.json(newFeedback, { status: 201 });
-    } catch (error) {
-        console.error("Error saving feedback:", error);
-        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+        return new Response(JSON.stringify({
+            data: feedbacks,
+            page,
+            limit,
+            totalPages: Math.ceil(totalDocs / limit),
+            totalDocs,
+        }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+    } catch (e) {
+        return new Response(JSON.stringify({ message: (e as Error).message }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+        });
     }
-};
+}
+
+export { GET }
