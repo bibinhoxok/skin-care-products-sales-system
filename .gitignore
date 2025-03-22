@@ -39,3 +39,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# nextjs-server-action-tester
+/public/server-actions.json
+/src/app/api/list-actions
+/src/app/list-actions
+
+#repomix
+repomix-output.txt
+repomix-output.xml
+
+#vscode config
+/.vscode/
+
+#...
+*.rar
+*.zip
