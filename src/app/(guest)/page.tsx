@@ -1,17 +1,15 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import type { Metadata } from 'next'
-import {FeaturedProducts} from "@/components/home-page/featured-products";
+import { FeaturedProducts } from "@/components/home-page/featured-products";
 import { DisplayedProducts } from "@/components/home-page/displayed-products";
-export const metadata: Metadata = {
-  title: 'Trang chủ',
-}
+
+export const metadata = {
+  title: "Trang chủ",
+};
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
-       
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-[url('/images/anh-nen2.jpeg')] bg-cover bg-center">
           <div className="px-4 md:px-6">
@@ -38,7 +36,7 @@ export default function Home() {
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-center mb-6 text-white">
               Sản Phẩm Nổi Bật
             </h2>
-            <FeaturedProducts/>
+            <FeaturedProducts />
           </div>
         </section>
 
@@ -60,7 +58,7 @@ export default function Home() {
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-center mb-6 text-white">
               Tất Cả Sản Phẩm
             </h2>
-            <DisplayedProducts/>
+            <DisplayedProducts />
           </div>
         </section>
       </main>
