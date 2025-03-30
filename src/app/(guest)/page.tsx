@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { FeaturedProducts } from "@/components/home-page/featured-products";
 import { DisplayedProducts } from "@/components/home-page/displayed-products";
+import Link from "next/link";
 
 export const metadata = {
   title: "Trang chủ",
@@ -30,15 +31,35 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Sản phẩm nổi bật */}
-        <section className="w-full py-12 flex justify-center items-center">
-          <div className="border border-gray-300 rounded-lg p-4 bg-black max-w-5xl">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-center mb-6 text-white">
-              Sản Phẩm Nổi Bật
-            </h2>
-            <FeaturedProducts />
-          </div>
-        </section>
+       {/* Wrapper chung */}
+<section className="w-full py-12 flex justify-center items-center">
+{/* Container chính */}
+<div className="flex flex-col md:flex-row items-center gap-10 max-w-6xl w-full">
+  
+  {/* Sản phẩm nổi bật (Bên trái) */}
+  <div className="border border-gray-300 rounded-lg p-4 bg-black w-full md:w-3/4">
+    <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-center mb-6 text-white">
+      Sản Phẩm Nổi Bật
+    </h2>
+    <FeaturedProducts />
+  </div>
+
+  {/* Banner Quiz (Bên phải) - Đẩy sang phải */}
+  <div className="bg-gray-900 text-white px-8 py-6 rounded-lg shadow-lg w-full md:w-1/4 ml-4">
+    <h3 className="text-lg font-semibold text-center">Bạn có thực sự hiểu rõ làn da của mình?</h3>
+    <p className="text-sm text-center mt-2 text-gray-300">
+      Hãy làm bài quiz nhanh để biết loại da của bạn và cách chăm sóc phù hợp!
+    </p>
+    <div className="flex justify-center mt-3">
+      <Link href="/quiz">
+        <Button className="bg-white text-gray-900 hover:bg-gray-300">Bắt đầu Quiz</Button>
+      </Link>
+    </div>
+  </div>
+
+</div>
+</section>
+
 
         <div className="w-full flex justify-center mt-4">
           <div className="w-2/3 relative mb-4">
